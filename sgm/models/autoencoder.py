@@ -16,8 +16,15 @@ from ..modules.ema import LitEma
 from ..util import (default, get_nested_attribute, get_obj_from_str,
                     instantiate_from_config)
 
+
+from torchvision.utils import save_image
+
 logpy = logging.getLogger(__name__)
 
+print('using modded version')
+
+def renormalize(x):
+    return (x - x.min()) / (x.max() - x.min())
 
 class AbstractAutoencoder(pl.LightningModule):
     """
@@ -266,6 +273,11 @@ class AutoencodingEngine(AbstractAutoencoder):
                 on_epoch=False,
                 on_step=True,
             )
+
+            if (batch_idx % 32) == 0:
+                print('saving images...')
+                save_image(renormalize(xrec), './reconstructions.png')
+
             return aeloss
         elif optimizer_idx == 1:
             # discriminator
