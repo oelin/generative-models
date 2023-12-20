@@ -9,7 +9,8 @@ from matplotlib import colormaps
 from matplotlib import pyplot as plt
 
 from ....util import default, instantiate_from_config
-from ..lpips.loss.lpips import LPIPS
+# from ..lpips.loss.lpips import LPIPS
+from lpips import lpips
 from ..lpips.model.model import weights_init
 from ..lpips.vqperceptual import hinge_d_loss, vanilla_d_loss
 
@@ -42,7 +43,7 @@ class GeneralLPIPSWithDiscriminator(nn.Module):
             )
         self.scale_input_to_tgt_size = scale_input_to_tgt_size
         assert disc_loss in ["hinge", "vanilla"]
-        self.perceptual_loss = LPIPS().eval()
+        self.perceptual_loss = LPIPS(net='vgg').eval() #LPIPS().eval()
         self.perceptual_weight = perceptual_weight
         # output log variance
         self.logvar = nn.Parameter(
