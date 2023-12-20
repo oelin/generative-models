@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 
 from ....util import default, instantiate_from_config
 # from ..lpips.loss.lpips import LPIPS
-from lpips import lpips
+from lpips import LPIPS
 from ..lpips.model.model import weights_init
 from ..lpips.vqperceptual import hinge_d_loss, vanilla_d_loss
 
